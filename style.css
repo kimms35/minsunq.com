@@ -1,0 +1,4 @@
+:root { color-scheme: light dark; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; line-height: 1.7; }
+main { max-width: 680px; margin: 0 auto; padding: 40px 16px; }
+h2 { margin-top: 2em; font-size: 1.15em; }
