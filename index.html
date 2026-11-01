@@ -151,6 +151,8 @@
         <input id="cDevice" name="device" type="text" placeholder="아이폰 기종, iOS 버전 (선택)" maxlength="60">
         <label class="sr" for="cMsg">문의 내용</label>
         <textarea id="cMsg" name="message" placeholder="문의 내용" required maxlength="4000" rows="5"></textarea>
+        <!-- 스팸 차단(hCaptcha). Web3Forms 공유 무료 키라 별도 가입이 필요 없고, 토큰은 h-captcha-response로 폼에 담겨 함께 전송된다. 대시보드에서 hCaptcha를 켜 둬야 한다. -->
+        <div class="h-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"></div>
         <button type="submit" class="pill send">문의 보내기</button>
         <p class="note" id="formNote" aria-live="polite"></p>
       </form>
@@ -179,6 +181,7 @@
   </div>
 </footer>
 
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 <script src="home.js"></script>
 </body>
 </html>

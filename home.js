@@ -104,8 +104,13 @@ const fallback = '보내지 못했어요. 잠시 뒤 다시 보내 주시거나 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!form.reportValidity()) return;
-  const send = form.querySelector('.send');
   const data = Object.fromEntries(new FormData(form));
+  if (!data['h-captcha-response']) {
+    note.className = 'note err';
+    note.textContent = '로봇이 아님을 먼저 확인해 주세요.';
+    return;
+  }
+  const send = form.querySelector('.send');
   send.disabled = true;
   send.textContent = '보내는 중…';
   try {
