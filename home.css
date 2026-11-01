@@ -1,0 +1,297 @@
+/* 필덕 첫 화면. 색과 모양은 앱(src/lib/colors.ts)에서 가져온다.
+   한 가지 모양: 앱 홈의 '지금 챙길 약' 카드(둥근 모서리, 복숭아색). 버튼은 앱처럼 끝이 둥근 알약 모양. */
+:root {
+  color-scheme: light;
+  --paper: #FFFCF5;      /* 앱 cream */
+  --ink: #30352F;        /* 앱 text */
+  --muted: #665D55;      /* 앱 muted */
+  --peach: #F6BE82;      /* 앱 cardBottom */
+  --peach-light: #FDF0DE;/* 앱 cardTop */
+  --mint: #E5F5ED;       /* 앱 takenSurface */
+  --taken: #0C8245;      /* 앱 taken(#0E8A4A)을 웹 글자 대비 4.5:1에 맞춰 아주 조금 어둡게 */
+  --head: #22382B;       /* 필덕 머리 깃털 */
+  --neutral: #F2EFEA;    /* 앱 neutralSurface */
+  --r: 20px;             /* 앱 cardRadius */
+  --r-big: 48px;         /* 같은 카드 모서리를 크게 키운 것 */
+  --m: clamp(16px, 3vw, 40px);
+  --gap: clamp(96px, 11vw, 168px);
+  --s-display: clamp(44px, 6.6vw, 100px);
+  --s-head: clamp(30px, 3.6vw, 52px);
+  --s-lead: clamp(18px, 1.5vw, 21px);
+  --s-body: 17px;
+  --s-small: 15px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: var(--s-body);
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-x: hidden;
+}
+img, video { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+button, input, textarea { font: inherit; color: inherit; }
+h1, h2, h3 { font-weight: 800; letter-spacing: -0.035em; line-height: 1.06; }
+h2 { font-size: var(--s-head); }
+h3 { font-size: var(--s-lead); letter-spacing: -0.02em; line-height: 1.3; }
+:focus-visible { outline: 3px solid var(--taken); outline-offset: 3px; border-radius: 6px; }
+::selection { background: var(--peach); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* 버튼: 앱의 알약 모양 */
+.pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px; padding: 0 26px; border: 0; border-radius: 999px;
+  background: var(--ink); color: #fff; font-weight: 700; text-decoration: none;
+  cursor: pointer; transition: transform .18s var(--ease), background-color .18s;
+}
+.pill:hover { background: #474d45; }
+.pill:active { transform: scale(.96); }
+.pill.small { min-height: 40px; padding: 0 18px; font-size: var(--s-small); }
+
+/* ---------- 첫 화면 ---------- */
+.hero { position: relative; min-height: max(100svh, 760px); overflow: hidden; }
+.bar {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px var(--m) 0;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 800; text-decoration: none; }
+.brand img { border-radius: 9px; }
+.links { display: flex; align-items: center; gap: 28px; font-size: var(--s-small); font-weight: 600; }
+.links a:not(.pill) { text-decoration: none; }
+.links a:not(.pill):hover { text-decoration: underline; text-underline-offset: 4px; }
+
+.hero-copy { position: relative; z-index: 1; padding: clamp(64px, 9vh, 120px) var(--m) 0; max-width: 760px; }
+.hero h1 { font-size: var(--s-display); }
+.lead { margin-top: 36px; font-size: var(--s-lead); max-width: 25em; }
+.status { margin-top: 14px; color: var(--muted); font-size: var(--s-small); }
+
+/* 무대: 카드 모양을 크게 키워 오른쪽 아래로 흘려 보낸다. */
+.stage {
+  position: absolute; left: 44%; right: 0; top: 30%; bottom: 0;
+  background: var(--peach);
+  border-top-left-radius: var(--r-big);
+}
+.screen {
+  width: min(560px, calc(100% - 112px)); margin: 56px 0 0 56px;
+  background: var(--paper); border-radius: var(--r) var(--r) 0 0;
+  padding: 20px 18px 0; height: calc(100% - 56px); overflow: hidden;
+}
+
+/* 앱 화면 조각(data-ui): 앱의 카드와 줄을 그대로 옮긴다. */
+.card {
+  position: relative; display: flex; min-height: 210px; border-radius: var(--r);
+  background: linear-gradient(var(--peach-light), var(--peach)); /* taste-skill-ignore: 앱 필덕 카드와 같은 세로 그라데이션. 영상 배경과 이어진다. */
+  box-shadow: 0 8px 16px rgba(190, 140, 60, .16); /* taste-skill-ignore: 앱 카드 그림자 */
+  overflow: hidden;
+}
+.card-main { flex: 1; padding: 20px 0 14px 22px; display: flex; flex-direction: column; align-items: flex-start; z-index: 1; }
+.card-label { font-size: 15px; font-weight: 600; }
+.card-name { display: flex; align-items: center; gap: 10px; margin: 6px 0 14px; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.card-name img { width: 36px; height: 36px; }
+.pill.taken { background: var(--taken); }
+.pill.taken:hover { background: #0b7a41; }
+.pill.big { width: 100%; max-width: 280px; min-height: 50px; font-size: 17px; }
+.skip { align-self: center; max-width: 280px; width: 100%; margin-top: 6px; padding: 6px; background: none; border: 0; font-size: 15px; cursor: pointer; }
+.skip:hover { text-decoration: underline; }
+.card-main .skip { align-self: flex-start; }
+.card-duck { position: relative; width: 190px; flex: none; }
+.card-duck img, .card-duck video { position: absolute; right: 0; bottom: 0; width: 210px; height: 210px; max-width: none; object-fit: cover; }
+.card-duck img { -webkit-mask-image: linear-gradient(to right, transparent, #000 35%); mask-image: linear-gradient(to right, transparent, #000 35%); } /* taste-skill-ignore: 앱처럼 필덕 그림 왼쪽 가장자리를 카드에 녹인다 */
+.card-duck video { opacity: 0; transition: opacity .2s; } /* 앱처럼 평소 그림과 0.2초 겹쳐 바꾼다 */
+.card-duck.playing video { opacity: 1; }
+.card.done .card-name { margin-top: 18px; }
+
+.rows { list-style: none; display: grid; gap: 10px; padding: 12px 0 24px; }
+.rows li {
+  display: flex; align-items: center; gap: 14px; min-height: 76px; padding: 10px 16px;
+  border-radius: var(--r); background: #FBF9F4;
+}
+.rows li.open { background: var(--paper); box-shadow: 0 6px 14px rgba(190, 140, 60, .14); } /* taste-skill-ignore: 앱 크림 카드 그림자 */
+.rows .sym { width: 48px; height: 48px; border-radius: 14px; background: var(--neutral); display: grid; place-items: center; flex: none; }
+.rows .sym img { width: 32px; height: 32px; }
+.rows .what { flex: 1; line-height: 1.3; }
+.rows .what b { display: block; font-size: 17px; }
+.rows .what span { color: var(--muted); font-size: 15px; }
+.rows .act { display: flex; flex-direction: column; align-items: center; }
+.rows .act .pill { min-height: 40px; padding: 0 20px; font-size: 15px; }
+.rows .act .skip { padding: 2px; font-size: 14px; margin-top: 2px; }
+.check {
+  width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer;
+  background: var(--taken); display: grid; place-items: center; transition: transform .18s var(--ease);
+}
+.check:active, .undo:active { transform: scale(.92); }
+.check svg { width: 20px; height: 20px; }
+.undo { border: 0; background: var(--neutral); border-radius: 999px; padding: 8px 14px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+/* ---------- 앱 화면 ---------- */
+main > section { padding: var(--gap) var(--m) 0; }
+.screens {
+  display: grid; grid-template-columns: 5fr 7fr; gap: 24px; align-items: end;
+}
+.names h2 { color: var(--muted); font-size: var(--s-head); margin-bottom: 4px; }
+.name {
+  display: block; background: none; border: 0; padding: 4px 0; cursor: pointer; text-align: left;
+  font-size: var(--s-head); font-weight: 800; letter-spacing: -0.035em; line-height: 1.12; color: var(--muted);
+  transition: color .2s;
+}
+.name:hover { color: var(--ink); }
+.name[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--taken); text-decoration-thickness: 5px; text-underline-offset: 10px; }
+.shot-stage {
+  position: relative; height: min(72vh, 680px); margin-top: 12vh;
+  border-radius: var(--r-big); transition: background-color .3s;
+}
+.tone-peach { background: var(--peach); }
+.tone-mint { background: var(--mint); }
+.tone-light { background: var(--peach-light); }
+.shot-stage img {
+  position: absolute; left: 34%; bottom: 7%; transform: translateX(-50%);
+  height: 108%; width: auto; max-width: none; border-radius: 36px;
+  transition: opacity .3s;
+}
+.shot-stage img.swap { opacity: 0; }
+.shot-stage figcaption { position: absolute; right: 40px; bottom: 40px; width: min(260px, 34%); font-size: var(--s-body); }
+
+/* ---------- 하는 일 ---------- */
+.features { display: grid; grid-template-columns: 3fr 9fr; gap: 24px; }
+.features-head p { margin-top: 20px; max-width: 16em; }
+.tiles { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 12px; }
+.tiles li { display: flex; flex-direction: column; }
+.tiles li.wide { grid-column: span 2; }
+.tile { border-radius: var(--r); overflow: hidden; aspect-ratio: 4 / 5; }
+.wide .tile { aspect-ratio: 8 / 5; }
+.tile img, .tile video { width: 100%; height: 100%; object-fit: cover; }
+.t-card { background: linear-gradient(var(--peach-light), var(--peach)); } /* taste-skill-ignore: 영상 배경과 같은 앱 카드 그라데이션 */
+.t-card video { object-fit: contain; }
+.t-peach { background: var(--peach); }
+.t-mint { background: var(--mint); }
+.t-light { background: var(--peach-light); }
+.tiles h3 { margin-top: 16px; }
+.tiles p { color: var(--muted); font-size: var(--s-small); margin-top: 4px; }
+
+/* ---------- 만든 사람 ---------- */
+.about { padding-left: 0; padding-right: 0; }
+.panel {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  margin: 0 var(--m); padding: 56px 56px 0; border-radius: var(--r-big);
+  background: var(--head); color: var(--peach-light); overflow: hidden;
+}
+.about h2 { color: var(--peach-light); }
+.door { width: min(36vw, 520px); margin-top: 64px; border-radius: var(--r-big) var(--r-big) 0 0; aspect-ratio: 1; object-fit: cover; }
+.about-right { display: flex; flex-direction: column; gap: 40px; padding: 8px 0 56px; max-width: 460px; justify-self: end; }
+.about-right h3 { color: #fff; margin-bottom: 8px; }
+.pill.action { align-self: flex-start; background: var(--peach); color: var(--ink); }
+.pill.action:hover { background: #f9cf9e; }
+
+/* ---------- 문의하기 ---------- */
+.contact { padding-bottom: var(--gap); }
+.contact-card {
+  display: grid; grid-template-columns: 5fr 7fr; gap: 48px;
+  padding: 48px; border-radius: var(--r-big); background: var(--peach);
+}
+.contact-left { display: flex; flex-direction: column; gap: 24px; }
+.contact-left img { width: 100%; max-width: 360px; border-radius: var(--r); }
+.contact-form { display: flex; flex-direction: column; gap: 10px; }
+.contact-form input:not(.sr), .contact-form textarea {
+  width: 100%; min-height: 54px; padding: 14px 18px; border: 0; border-radius: 14px;
+  background: var(--peach-light); font-size: 16px;
+}
+.contact-form textarea { min-height: 180px; resize: vertical; }
+.contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--muted); }
+.send { min-height: 56px; font-size: 17px; margin-top: 4px; }
+.send:disabled { opacity: .6; }
+.note { font-size: var(--s-small); margin-top: 6px; }
+.note.ok { color: #0b6e3b; font-weight: 700; }
+.note.err { color: #8f2f2f; font-weight: 700; }
+
+/* ---------- 바닥 ---------- */
+.foot { padding: 0 var(--m) 32px; }
+.mark { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end; height: min(40svh, 420px); }
+.mark span {
+  display: flex; align-items: flex-end; height: 100%; padding: 0 0 0 4%;
+  border-radius: var(--r-big); font-weight: 800; letter-spacing: -0.06em; line-height: .8;
+  font-size: min(30vw, 34svh); overflow: hidden;
+}
+.m1 { background: var(--peach); }
+.mark .m2 { background: var(--mint); height: 82%; }
+.mark img { position: absolute; right: 2%; bottom: 0; height: 104%; width: auto; max-width: none; }
+.foot-row { display: grid; grid-template-columns: 4fr 5fr 3fr; gap: 24px; margin-top: 56px; font-size: var(--s-small); }
+.foot-row nav { display: flex; flex-direction: column; gap: 8px; }
+.foot-row a { text-underline-offset: 4px; }
+.foot-row p:last-child { justify-self: end; font-weight: 700; }
+.foot-last small { font-size: inherit; }
+.foot-last { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; color: var(--muted); font-size: var(--s-small); }
+
+/* ---------- 동작 ---------- */
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease) var(--d, 0ms), transform .7s var(--ease) var(--d, 0ms); }
+.js .reveal.in { opacity: 1; transform: none; }
+/* 첫 화면 한 번: 카드 무대가 오른쪽에서 열리고 안의 화면이 제자리로 내려앉는다. */
+.js .stage { animation: shutter 1.1s var(--ease) .15s both; }
+.js .screen { animation: settle 1.1s var(--ease) .15s both; }
+.js .hero-copy > * { animation: rise .8s var(--ease) both; }
+.js .hero-copy > :nth-child(2) { animation-delay: .08s; }
+.js .hero-copy > :nth-child(3) { animation-delay: .16s; }
+@keyframes shutter { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+@keyframes settle { from { transform: scale(1.12) translateY(40px); } to { transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .js .stage, .js .screen, .js .hero-copy > * { animation: none; }
+  .name, .shot-stage, .shot-stage img, .pill { transition: none; }
+}
+
+/* ---------- 태블릿 ---------- */
+@media (max-width: 1000px) {
+  .links a:not(.pill) { display: none; }
+  .hero { min-height: auto; }
+  .stage { position: relative; left: auto; top: auto; margin: 56px 0 0 var(--m); height: 620px; }
+  .screens { grid-template-columns: 1fr; }
+  .shot-stage { margin-top: 64px; height: 560px; }
+  .features { grid-template-columns: 1fr; }
+  .panel { grid-template-columns: 1fr; padding: 40px 32px 0; }
+  .about-right { justify-self: start; padding-bottom: 0; }
+  .door { width: min(80%, 420px); justify-self: center; margin-top: 8px; }
+  .contact-card { grid-template-columns: 1fr; }
+  .foot-row { grid-template-columns: 1fr 1fr; }
+  .foot-row p:last-child { justify-self: start; }
+  .mark img { display: none; } /* 좁으면 '덕' 글자를 가린다 */
+}
+
+/* ---------- 휴대폰 ---------- */
+@media (max-width: 600px) {
+  :root { --r-big: 32px; }
+  .hero-copy { padding-top: 48px; }
+  .hero h1 { font-size: 10.5vw; }
+  .lead { margin-top: 24px; }
+  .stage { margin: 40px 0 0; border-radius: var(--r-big) var(--r-big) 0 0; height: 560px; }
+  .screen { width: auto; margin: 16px 16px 0; padding: 14px 12px 0; height: calc(100% - 16px); }
+  .card { min-height: 180px; }
+  .card-main { padding: 16px 0 10px 16px; }
+  .card-name { font-size: 22px; }
+  .card-duck { width: 120px; }
+  .card-duck img, .card-duck video { width: 170px; height: 170px; right: -20px; }
+  .pill.big { min-height: 46px; font-size: 17px; }
+  .names > div { display: flex; gap: 22px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; }
+  .name { font-size: 26px; white-space: nowrap; flex: none; }
+  .shot-stage { height: 520px; margin-top: 56px; }
+  .shot-stage img { left: 50%; height: 100%; bottom: 14%; border-radius: 28px; }
+  .shot-stage figcaption { left: 24px; right: 24px; bottom: 20px; width: auto; font-size: var(--s-small); }
+  .tiles { grid-template-columns: 1fr 1fr; gap: 24px 8px; }
+  .tiles li.wide { grid-column: span 2; order: -1; }
+  .tiles h3 { font-size: 17px; }
+  .panel { margin: 0 10px; padding: 32px 20px 0; }
+  .contact { padding-left: 12px; padding-right: 12px; }
+  .contact-card { padding: 28px 20px; gap: 28px; }
+  .contact-left img { max-width: none; }
+  .mark { height: 22svh; gap: 6px; margin-top: 40px; }
+  .mark span { font-size: 21svh; }
+  .foot-row { grid-template-columns: 1fr; }
+}

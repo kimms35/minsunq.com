@@ -4,54 +4,181 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>필덕 - 복약 알림과 기록</title>
-<meta name="description" content="매일 먹는 약과 영양제를 정한 시간에 알리고, 먹었는지 간단히 기록하는 앱.">
+<meta name="description" content="매일 먹는 약과 영양제를 정한 시간에 알리고, 먹었는지 간단히 기록하는 아이폰 앱.">
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="home.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-<header class="top wrap">
-  <a class="brand" href="./"><img src="icon.png" alt="">필덕</a>
+
+<!-- 첫 화면: 앱 홈의 '지금 챙길 약' 카드가 페이지의 모양이 된다. 오른쪽 아래 무대 위의 홈 화면은 실제로 눌러 볼 수 있다. -->
+<header class="hero">
+  <nav class="bar">
+    <a class="brand" href="./"><img src="icon.png" alt="" width="36" height="36">필덕</a>
+    <div class="links">
+      <a href="#screens">앱 화면</a>
+      <a href="#features">하는 일</a>
+      <a href="#about">만든 사람</a>
+      <a href="support.html">지원</a>
+      <a class="pill small" href="#contact">문의하기</a>
+    </div>
+  </nav>
+  <div class="hero-copy">
+    <h1>약 챙길 시간,<br>필덕이 함께해요</h1>
+    <p class="lead">매일 먹는 약과 영양제를 정한 시간에 알리고, ‘먹었어요’ 한 번으로 기록하는 아이폰 앱이에요.</p>
+    <p class="status">App Store 출시를 준비하고 있어요.</p>
+  </div>
+
+  <div class="stage">
+    <!-- 앱 홈 화면의 윗부분. 실제 앱처럼 먹었어요·건너뛰기를 누르면 기록되고, 다시 누르면 지워진다. -->
+    <div class="screen" data-ui aria-label="필덕 앱 홈 화면 체험">
+      <div class="card">
+        <div class="card-main" id="cardMain" aria-live="polite">
+          <p class="card-label" id="cardLabel">지금 챙길 약 · 13:00</p>
+          <p class="card-name"><img id="cardSym" src="img/sym-leaf.png" alt="" width="40" height="40"><span id="cardName">유산균</span></p>
+          <button type="button" class="pill taken big" id="cardTake">먹었어요</button>
+          <button type="button" class="skip" id="cardSkip">건너뛰기</button>
+        </div>
+        <div class="card-duck">
+          <img id="duckStill" src="img/clap.jpg" alt="약사 가운을 입은 오리 필덕" width="720" height="720">
+          <video id="duckMove" muted playsinline preload="none" aria-hidden="true"></video>
+        </div>
+      </div>
+      <ul class="rows" id="rows"></ul>
+    </div>
+  </div>
 </header>
 
-<main class="wrap">
-  <section class="hero">
-    <div class="copy">
-      <span class="eyebrow">복약 알림 · 기록 앱</span>
-      <h1>약 챙길 시간,<br>필덕이 함께해요</h1>
-      <p>매일 먹는 약과 영양제를 정한 시간에 알리고, 먹었는지 간단히 기록하는 앱이에요.</p>
-      <span class="soon">App Store 출시 준비 중</span>
+<main>
+  <!-- 앱 화면: 이름을 고르면 카드 모양 무대 위의 화면이 바뀐다. -->
+  <section id="screens" class="screens">
+    <div class="names">
+      <h2>앱 화면</h2>
+      <div role="group" aria-label="앱 화면 고르기">
+        <button type="button" class="name" aria-pressed="true" data-shot="home" data-tone="peach" data-fact="오늘 먹을 약이 시간 순서로 한 줄씩 보여요. 지금 챙길 약은 맨 위 카드에 와요.">홈</button>
+        <button type="button" class="name" aria-pressed="false" data-shot="history" data-tone="mint" data-fact="먹은 날이 날짜별 달력에 쌓여요. 날짜를 누르면 그날의 기록이 보여요.">기록 달력</button>
+        <button type="button" class="name" aria-pressed="false" data-shot="manage" data-tone="light" data-fact="약마다 그림과 이름, 시간을 정해요. 하루 1~3번, 매일 또는 고른 요일.">약 관리</button>
+        <button type="button" class="name" aria-pressed="false" data-shot="streak-detail" data-tone="peach" data-fact="약마다 연속으로 먹은 날을 세요. 하루 빠져도 경고나 불이익은 없어요.">연속 복용</button>
+      </div>
     </div>
-    <img class="duck" src="duck.png" alt="약사 가운을 입은 오리 필덕" width="320" height="320">
+    <figure class="shot-stage tone-peach" id="shotStage">
+      <img id="shotImg" src="img/home.jpg" alt="필덕 앱 홈 화면" width="506" height="1100" loading="lazy">
+      <figcaption id="shotFact">오늘 먹을 약이 시간 순서로 한 줄씩 보여요. 지금 챙길 약은 맨 위 카드에 와요.</figcaption>
+    </figure>
   </section>
 
-  <section class="features">
-    <div class="feature">
-      <h2><span class="dot"></span>정한 시간에 알림</h2>
-      <p>요일과 시간을 정해 두면 그때 알림을 보내요.</p>
+  <!-- 하는 일: 기능마다 필덕 그림 한 장 -->
+  <section id="features" class="features">
+    <div class="features-head reveal">
+      <h2>필덕이 하는 일</h2>
+      <p>체크까지 가는 길은 짧게, 나머지는 필덕이 챙겨요.</p>
     </div>
-    <div class="feature">
-      <h2><span class="dot"></span>한 번에 체크</h2>
-      <p>"먹었어요" 한 번이면 기록돼요. 잘못 눌러도 언제든 고칠 수 있어요.</p>
+    <ul class="tiles">
+      <li class="reveal">
+        <div class="tile t-peach"><img src="img/clock.jpg" alt="벽시계 옆에 선 필덕" width="900" height="900" loading="lazy"></div>
+        <h3>정한 시간에 알림</h3>
+        <p>약마다 하루 1~3번, 매일 또는 고른 요일에 알려요.</p>
+      </li>
+      <li class="reveal wide">
+        <div class="tile t-card"><video src="img/dance.mp4" poster="img/dance.jpg" muted loop playsinline autoplay aria-label="춤추는 필덕"></video></div>
+        <h3>‘먹었어요’ 한 번이면 기록</h3>
+        <p>잘못 눌렀으면 다시 누르면 지워져요. 먹음과 건너뜀도 바꿀 수 있어요.</p>
+      </li>
+      <li class="reveal">
+        <div class="tile t-mint"><img src="img/calendar.jpg" alt="달력을 넘기는 필덕" width="900" height="900" loading="lazy"></div>
+        <h3>날짜별 기록 달력</h3>
+        <p>먹은 날과 건너뛴 날을 달력에서 한눈에 봐요.</p>
+      </li>
+      <li class="reveal">
+        <div class="tile t-light"><img src="img/board.jpg" alt="복약 보드를 가리키는 필덕" width="900" height="900" loading="lazy"></div>
+        <h3>약별 연속 복용</h3>
+        <p>끊겨도 경고나 불이익 없이 다시 세면 돼요.</p>
+      </li>
+      <li class="reveal">
+        <div class="tile t-peach"><img src="img/welcome.jpg" alt="환영 매트 옆에 선 필덕" width="900" height="900" loading="lazy"></div>
+        <h3>가입 없이 바로</h3>
+        <p>계정도 광고도 없어요. 기록은 내 아이폰에 저장돼요.</p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 만든 사람 -->
+  <section id="about" class="about">
+    <div class="panel">
+      <div class="about-left">
+        <h2 class="reveal">‘오늘 먹었나?’에<br>바로 답하려고</h2>
+        <img class="door reveal" src="img/door.jpg" alt="약국 문 옆에서 인사하는 필덕" width="900" height="900" loading="lazy">
+      </div>
+      <div class="about-right">
+        <div class="reveal">
+          <h3>필덕을 만든 이유</h3>
+          <p>매일 먹는 약과 영양제는 단순한데, “오늘 먹었나?” 하는 순간은 자꾸 찾아와요. 그 질문에 기록으로 바로 답할 수 있는 앱을 만들고 싶었어요.</p>
+        </div>
+        <div class="reveal">
+          <h3>할 일은 줄이고</h3>
+          <p>정한 시간에 알리고, ‘먹었어요’ 한 번이면 끝나요. 하루를 놓쳐도 다그치지 않고, 기록은 언제든 바로잡을 수 있어요.</p>
+        </div>
+        <div class="reveal">
+          <h3>필덕은 곁에서</h3>
+          <p>약사 가운을 입은 오리 필덕은 그 시간을 조금 덜 심심하게 해 주는 친구예요. 의료 진단이나 처방은 하지 않아요.</p>
+        </div>
+        <a class="pill action reveal" href="#contact">문의 남기기</a>
+      </div>
     </div>
-    <div class="feature">
-      <h2><span class="dot"></span>달력으로 한눈에</h2>
-      <p>지난 기록과 연속 복용을 달력에서 확인해요.</p>
-    </div>
-    <div class="feature">
-      <h2><span class="dot"></span>내 아이폰에만 저장</h2>
-      <p>계정 없이 쓰고, 기록은 내 아이폰에 저장돼요.</p>
+  </section>
+
+  <!-- 문의하기 -->
+  <section id="contact" class="contact">
+    <div class="contact-card reveal">
+      <div class="contact-left">
+        <h2>궁금한 점을<br>보내 주세요</h2>
+        <img src="img/mailbox.jpg" alt="민트색 우체통에 편지를 넣는 필덕" width="900" height="900" loading="lazy">
+        <p>메일로 순서대로 답장드려요. 아이폰 기종과 iOS 버전을 알려 주시면 더 빨리 도와드릴 수 있어요.</p>
+      </div>
+      <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+        <!-- Web3Forms 접근 키(공개용). 받는 주소는 Web3Forms 설정에서 support@minsunq.com으로 정한다. -->
+        <input type="hidden" name="access_key" value="5e92e87c-0435-409a-a593-e358182e25d8">
+        <input type="hidden" name="subject" value="[필덕 문의] minsunq.com">
+        <input type="hidden" name="from_name" value="필덕 웹사이트">
+        <input type="checkbox" name="botcheck" class="sr" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="sr" for="cName">이름</label>
+        <input id="cName" name="name" type="text" placeholder="이름 (선택)" autocomplete="name" maxlength="60">
+        <label class="sr" for="cEmail">답장 받을 이메일</label>
+        <input id="cEmail" name="email" type="email" placeholder="답장 받을 이메일" autocomplete="email" required maxlength="120">
+        <label class="sr" for="cDevice">아이폰 기종과 iOS 버전</label>
+        <input id="cDevice" name="device" type="text" placeholder="아이폰 기종, iOS 버전 (선택)" maxlength="60">
+        <label class="sr" for="cMsg">문의 내용</label>
+        <textarea id="cMsg" name="message" placeholder="문의 내용" required maxlength="4000" rows="5"></textarea>
+        <button type="submit" class="pill send">문의 보내기</button>
+        <p class="note" id="formNote" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 </main>
 
-<footer class="wrap">
-  <nav>
-    <a href="privacy.html">개인정보처리방침</a>
-    <a href="mailto:support@minsunq.com">문의: support@minsunq.com</a>
-  </nav>
-  <p>필덕은 의료 진단이나 처방을 하지 않고, 약·영양제의 건강 정보를 제공하지 않아요.</p>
-  <p>© 2026 Minsung Kim</p>
+<!-- 바닥: 이름이 카드 두 장으로 크게 돌아온다. -->
+<footer class="foot">
+  <div class="mark" aria-hidden="true">
+    <span class="m1">필</span><span class="m2">덕</span>
+    <img src="img/duck.png" alt="" width="720" height="720" loading="lazy">
+  </div>
+  <div class="foot-row">
+    <nav aria-label="바닥 메뉴">
+      <a href="support.html">지원, 자주 묻는 질문</a>
+      <a href="privacy.html">개인정보처리방침</a>
+      <a href="#contact">문의하기</a>
+    </nav>
+    <p>필덕은 의료 진단이나 처방을 하지 않고, 약·영양제의 건강 정보를 제공하지 않아요.</p>
+    <p><a href="mailto:support@minsunq.com">support@minsunq.com</a></p>
+  </div>
+  <div class="foot-last">
+    <small>© 2026 Minsung Kim</small>
+    <a class="pill small" href="#contact">문의하기</a>
+  </div>
 </footer>
+
+<script src="home.js"></script>
 </body>
 </html>
