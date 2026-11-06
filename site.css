@@ -1,0 +1,28 @@
+/* 모든 페이지가 같이 쓰는 머리줄 */
+.site-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 16px; }
+.site-name { color: inherit; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; text-decoration: none; }
+.site-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+/* 첫 화면 (minsunq.com): 머리줄과 왼쪽 가운데 필덕 그림만 */
+.home {
+  --paper: #E6D9C6;
+  --ink: #2B2722;
+  --quiet: #625646;
+  margin: 0;
+  background: var(--paper);
+  /* 진주 광택: 왼쪽 위는 분홍빛, 오른쪽 아래는 푸른빛이 아주 옅게 */
+  background-image: radial-gradient(120% 90% at 15% 10%, rgba(248, 234, 222, .75), transparent 60%), radial-gradient(90% 80% at 90% 95%, rgba(214, 212, 220, .55), transparent 65%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: "IBM Plex Sans KR", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+}
+.home .site-nav { position: absolute; top: 0; left: 0; right: 0; max-width: 880px; margin: 0 auto; box-sizing: border-box; }
+.home main { min-height: 100vh; min-height: 100svh; max-width: 880px; margin: 0 auto; padding: 0 16px; box-sizing: border-box; display: flex; align-items: center; }
+.app-icon { display: block; border-radius: 24px; }
+.app-icon img { display: block; width: 160px; height: 160px; border-radius: 24px; box-shadow: 0 10px 30px rgba(120, 90, 60, .16), 0 1px 3px rgba(120, 90, 60, .14); }
+.site-foot { position: absolute; bottom: 0; right: 0; padding: 20px 16px 24px; box-sizing: border-box; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 20px; font-size: 14px; }
+.site-foot a { color: var(--quiet); text-decoration: none; }
+.site-foot a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.site-foot a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+@media (min-width: 768px) { .site-foot { padding: 24px 32px 28px; } }
+.app-icon:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }

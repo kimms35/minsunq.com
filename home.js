@@ -36,7 +36,7 @@ function record(i, state) {
   if (state === 'taken' && !reduce) {
     const pick = moves.filter((m) => m !== lastMove);
     lastMove = pick[Math.floor(Math.random() * pick.length)];
-    move.src = `img/${lastMove}.mp4`;
+    move.src = `../img/${lastMove}.mp4`;
     duck.classList.add('playing');
     move.play().catch(() => duck.classList.remove('playing'));
   }
@@ -57,12 +57,12 @@ function render() {
     const d = doses[next];
     document.getElementById('cardLabel').textContent = `지금 챙길 약 · ${d.time}`;
     document.getElementById('cardName').textContent = d.name;
-    document.getElementById('cardSym').src = `img/sym-${d.sym}.png`;
+    document.getElementById('cardSym').src = `../img/sym-${d.sym}.png`;
     card.dataset.i = next;
   }
   rowsEl.innerHTML = doses.map((d, i) => `
     <li class="${d.state ? '' : 'open'}">
-      <span class="sym"><img src="img/sym-${d.sym}.png" alt="" width="32" height="32"></span>
+      <span class="sym"><img src="../img/sym-${d.sym}.png" alt="" width="32" height="32"></span>
       <span class="what"><b>${d.name}</b><span>${d.time}</span></span>
       <span class="act">${
         d.state === 'taken' ? `<button type="button" class="check" data-i="${i}" data-do="clear" aria-label="${d.name} 먹음 기록 지우기">${check}</button>`
@@ -91,7 +91,7 @@ document.querySelectorAll('.name').forEach((b) => b.addEventListener('click', ()
   fact.textContent = b.dataset.fact;
   shot.classList.add('swap');
   setTimeout(() => {
-    shot.src = `img/${b.dataset.shot}.jpg`;
+    shot.src = `../img/${b.dataset.shot}.jpg`;
     shot.alt = `필덕 앱 ${b.textContent} 화면`;
     shot.classList.remove('swap');
   }, reduce ? 0 : 300);
